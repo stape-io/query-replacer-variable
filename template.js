@@ -1,8 +1,13 @@
+/// <reference path="./server-gtm-sandboxed-apis.d.ts" />
+
 const getEventData = require('getEventData');
 const decodeUriComponent = require('decodeUriComponent');
 const encodeUriComponent = require('encodeUriComponent');
 const parseUrl = require('parseUrl');
 const makeTableMap = require('makeTableMap');
+
+/*==============================================================================
+==============================================================================*/
 
 const pageLocation = getEventData('page_location');
 const parsedUrl = parseUrl(pageLocation);
@@ -10,7 +15,6 @@ const parsedUrl = parseUrl(pageLocation);
 if (!parsedUrl.search) return pageLocation;
 
 const fromTo = makeTableMap(data.customParams, 'from', 'to');
-
 const searchParams = parsedUrl.searchParams;
 const newSearchParams = [];
 
@@ -21,4 +25,10 @@ for (let key in searchParams) {
   newSearchParams.push(encodeUriComponent(newKey ? newKey : key) + '=' + encodeUriComponent(value));
 }
 
-return parsedUrl.origin + parsedUrl.pathname + '?' + newSearchParams.join('&') + (parsedUrl.hash ? parsedUrl.hash : '');
+return (
+  parsedUrl.origin +
+  parsedUrl.pathname +
+  '?' +
+  newSearchParams.join('&') +
+  (parsedUrl.hash ? parsedUrl.hash : '')
+);
