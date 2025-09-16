@@ -1,8 +1,7 @@
-# Query Replacer
+# Query Replacer Variable for GTM Server Side
 
-Query Replacer variable allows replace parameters in the URL location, use it inside server Google Tag Manager.
-
+The **Query Replacer Variable** allows to replace URL query parameters in the `page_location` Event Data parameter.
 
 ## Open Source
 
-Query Replacer Variable for GTM Server Side is developing and maintained by [Stape Team](https://stape.io/) under the Apache 2.0 license.
+The **Query Replacer Variable** for GTM Server Side is developed and maintained by [Stape Team](https://stape.io/) under the Apache 2.0 license.

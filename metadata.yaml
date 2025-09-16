@@ -1,5 +1,8 @@
-homepage: "https://stape.io/"
+homepage: 'https://stape.io/'
+documentation: 'https://github.com/stape-io/query-replacer-variable'
 versions:
+  - sha: 3ea7f72bbd7e7f533f20f8190556c338dae69cad
+    changeNotes: Added support for skipping existing query parameters.
   - sha: 782b9c5e5b221b3c286e3ca5379a5566fa2f5b67
     changeNotes: Code refactoring, better parsing of input string and output result. Added some tests.
   - sha: 1e7d672aac990a4f9d293b2e6d81d5e60176a7b6
