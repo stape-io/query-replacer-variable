@@ -5,6 +5,7 @@ const decodeUriComponent = require('decodeUriComponent');
 const encodeUriComponent = require('encodeUriComponent');
 const parseUrl = require('parseUrl');
 const makeTableMap = require('makeTableMap');
+const getType = require('getType');
 
 /*==============================================================================
 ==============================================================================*/
@@ -18,11 +19,18 @@ const fromTo = makeTableMap(data.customParams, 'from', 'to');
 const searchParams = parsedUrl.searchParams;
 const newSearchParams = [];
 
-// 'key' is always decoded.
-for (let key in searchParams) {
-  const value = searchParams[key];
-  const newKey = decodeUriComponent(fromTo[key] || fromTo[encodeUriComponent(key)] || ''); // If the person added it either decoded or encoded.
-  newSearchParams.push(encodeUriComponent(newKey ? newKey : key) + '=' + encodeUriComponent(value));
+// 'fromKey' is always decoded.
+for (const fromKey in searchParams) {
+  const value = searchParams[fromKey];
+
+  let toKey = decodeUriComponent(fromTo[fromKey] || fromTo[enc(fromKey)] || ''); // If the person added it either decoded or encoded.
+  if (data.skipExisting && searchParams.hasOwnProperty(toKey)) toKey = undefined;
+
+  const newKey = toKey ? toKey : fromKey;
+
+  getType(value) === 'array' // For parameters that are repeated.
+    ? value.forEach((v) => newSearchParams.push(enc(newKey) + '=' + enc(v)))
+    : newSearchParams.push(enc(newKey) + '=' + enc(value));
 }
 
 return (
@@ -32,3 +40,11 @@ return (
   newSearchParams.join('&') +
   (parsedUrl.hash ? parsedUrl.hash : '')
 );
+
+/*==============================================================================
+  Helpers
+==============================================================================*/
+
+function enc(data) {
+  return encodeUriComponent(data || '');
+}
